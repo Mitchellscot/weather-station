@@ -4,6 +4,7 @@
   "description": "program to show the temp outside and temp inside",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Mitchellscot/weather-station/issues"
   },
-  "homepage": "https://github.com/Mitchellscot/weather-station#readme"
+  "homepage": "https://github.com/Mitchellscot/weather-station#readme",
+  "dependencies": {
+    "rpio": "^2.4.2"
+  }
 }
