@@ -8,9 +8,9 @@ let bottom;
 
 let data = getWeather(apiKey).then((r) => {
     top = `OUT: ${r.current} - IN: 68`;
-    bottom = `H${r.high} L${r.low} ${r.conditions}`;
-}
-).catch((err) => console.log(err));
+    bottom = `H ${r.high} L ${r.low} ${r.conditions}`;
+}).then(() => {
+    displayWeather(top, bottom);
+}).catch((err) => console.log(err));
 
-displayWeather(top, bottom);
 
