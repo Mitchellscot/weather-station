@@ -1,0 +1,39 @@
+var rpio = require('rpio');
+
+var init = Buffer.from([0x03, 0x03, 0x03, 0x02, 0x28, 0x0c, 0x01, 0x06]);
+var LCD_LINE1 = 0x80, LCD_LINE2 = 0xc0;
+var LCD_ENABLE = 0x04, LCD_BACKLIGHT = 0x08;
+
+const lcdWriteBits = (data) =>{
+        rpio.i2cWrite(Buffer([(data | LCD_BACKLIGHT)]));
+        rpio.i2cWrite(Buffer([(data | LCD_ENABLE | LCD_BACKLIGHT)]));
+        rpio.i2cWrite(Buffer([((data & ~LCD_ENABLE) | LCD_BACKLIGHT)]));
+}
+
+const lcdWrite = (data, mode) => {
+    lcdWriteBits(mode | (data & 0xF0));
+    lcdWriteBits(mode | ((data << 4) & 0xF0));
+}
+
+const lineOut = (str, addr) =>{
+    lcdWrite(addr, 0);
+        str.split('').forEach((c) => {
+            lcdWrite(c.charCodeAt(0), 1);
+        });
+}
+    
+const displayWeather = (stringOne, stringTwo) => {
+    rpio.i2cBegin();
+    rpio.i2cSetSlaveAddress(0x27);
+    rpio.i2cSetBaudRate(10000);
+    
+    for (var i = 0; i < init.length; i++)
+    {
+        lcdWrite(init[i], 0);
+        lineOut(stringOne, LCD_LINE1);
+        lineOut(stringTwo, LCD_LINE2);
+    }
+    rpio.i2cEnd();
+}
+
+module.exports = { displayWeather };
