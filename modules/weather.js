@@ -7,10 +7,15 @@ const formatResults = (data) => {
     let dailyLow = data.daily[0].temp.min;
     let conditions = data.daily[0].weather[0].main;
     let parsedConditions = parseConditions(conditions);
-    let weatherData = { current: currentTemp.toFixed(0), feels: feelsLike.toFixed(0), high: dailyHigh.toFixed(0), low: dailyLow.toFixed(0), conditions: parsedConditions};
+    let weatherData = { 
+        current: currentTemp.toFixed(0), 
+        feels: feelsLike.toFixed(0), 
+        high: dailyHigh.toFixed(0), 
+        low: dailyLow.toFixed(0), 
+        conditions: parsedConditions};
     if (weatherData.conditions == 'Clouds')
     {
-        let x = getClouds(conditions.id);
+        let x = getClouds(data.daily[0].weather[0].id);
         weatherData.conditions = x;
     }
     return weatherData;
@@ -41,28 +46,38 @@ const parseConditions = (conditions) => {
         case 'Sand':
             return 'Smoke';
         case 'Ash':
-            return 'Haze';
+            return 'Ash';
         case 'Squall':
             return 'Squall';
         case 'Tornado':
             return 'Torndo';
         case 'Clouds':
-            return 'Cloudy';
+            return 'Clouds';
     }
 }
 
-const getClouds = (weatherId) => {
-    switch(weatherid) {
+const getClouds = (conditions) => {
+    switch(conditions) {
         case 801:
             return 'Sunny';
         case 802:
-            return 'PrtCld';
+            return 'PCloud';
         case 803:
             return 'Clouds';
         case 804:
             return 'OvCast';
     }
 }
+
+const formatTemp = (temperature) => {
+    return temperature.length == 3 ? `${temperature}` : ` ${temperature}`
+}
+
+const buildString = (response, position) => {
+    return position === 'top' ? 
+        `C${formatTemp(response.current)} F${formatTemp(response.feels)} I 68` :
+        `H${formatTemp(response.high)} L${formatTemp(response.low)} ${response.conditions}`;
+};
 
 const getWeather = async (apiKey) => {
     let weatherData;
@@ -73,5 +88,4 @@ const getWeather = async (apiKey) => {
     return weatherData;
 };
 
-
-module.exports = { getWeather };
+module.exports = { getWeather, buildString };
