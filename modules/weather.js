@@ -69,16 +69,6 @@ const getClouds = (conditions) => {
     }
 }
 
-const formatTemp = (temperature) => {
-    return temperature.length == 3 ? `${temperature}` : ` ${temperature}`
-}
-
-const buildString = (response, position) => {
-    return position === 'top' ? 
-        `C${formatTemp(response.current)} F${formatTemp(response.feels)} I 68` :
-        `H${formatTemp(response.high)} L${formatTemp(response.low)} ${response.conditions}`;
-};
-
 const getWeather = async (apiKey) => {
     let weatherData;
     await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=46.357994&lon=-94.268458&exclude=minutely,hourly&appid=${apiKey}&units=imperial`)
@@ -88,4 +78,4 @@ const getWeather = async (apiKey) => {
     return weatherData;
 };
 
-module.exports = { getWeather, buildString };
+module.exports = { getWeather };

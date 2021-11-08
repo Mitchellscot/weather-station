@@ -1,7 +1,9 @@
 require('dotenv').config();
 const apiKey = process.env.WEATHER_API_KEY
 let { displayWeather } = require("./modules/lcd");
-let { getWeather, buildString } = require("./modules/weather");
+let { getWeather } = require("./modules/weather");
+let { getIndoorTemperature } = require("./modules/indoor-temp");
+let { buildString } = require("./modules/screen-formating");
 
 let top, bottom;
 
