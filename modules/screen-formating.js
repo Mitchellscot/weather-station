@@ -1,16 +1,18 @@
-const { getIndoorTemperature } = require("./indoor-temp");
+const sensor = require("node-dht-sensor").promises;
 
-
-const buildString = (response, position) => {
-    let indoorTemperature = getIndoorTemperature();
-    setTimeout(() => console.log(`this is indoorTemperature: ${indoorTemperature}`), 3000)
-    
-     let formattedTemperature = convertToFahrenheit(indoorTemperature);
-    console.log(formattedTemperature);
-    return position === 'top' ? 
-        `C${formatTemp(response.current)} F${formatTemp(response.feels)} I ${indoorTemperature}` :
-        `H${formatTemp(response.high)} L${formatTemp(response.low)} ${response.conditions}`;
+const buildBottomString = (response) => {
+    return `H${formatTemp(response.high)} L${formatTemp(response.low)} ${response.conditions}`;
 };
+
+const buildTopString = async (response) => {
+    try {
+        const readTemp = await sensor.read(22, 4);
+        let convertedToFahrenheit = convertToFahrenheit(readTemp.temperature.toFixed(0));
+        return `C${formatTemp(response.current)} F${formatTemp(response.feels)} I ${convertedToFahrenheit}`;
+    } catch (error) {
+        console.log(`HEY MITCH - COULDNT READ TEMPERATURE ${error}`);        
+    }
+}
 
 const convertToFahrenheit = (temp) => {
     return temp * 9/5 + 32;
@@ -20,4 +22,4 @@ const formatTemp = (temperature) => {
     return temperature.length == 3 ? `${temperature}` : ` ${temperature}`
 }
 
-module.exports = { buildString };
+module.exports = { buildTopString, buildBottomString };
