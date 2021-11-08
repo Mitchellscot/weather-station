@@ -5,9 +5,9 @@ var LCD_LINE1 = 0x80, LCD_LINE2 = 0xc0;
 var LCD_ENABLE = 0x04, LCD_BACKLIGHT = 0x08;
 
 const lcdWriteBits = (data) =>{
-        rpio.i2cWrite(Buffer([(data | LCD_BACKLIGHT)]));
-        rpio.i2cWrite(Buffer([(data | LCD_ENABLE | LCD_BACKLIGHT)]));
-        rpio.i2cWrite(Buffer([((data & ~LCD_ENABLE) | LCD_BACKLIGHT)]));
+        rpio.i2cWrite(Buffer.from([(data | LCD_BACKLIGHT)]));
+        rpio.i2cWrite(Buffer.from([(data | LCD_ENABLE | LCD_BACKLIGHT)]));
+        rpio.i2cWrite(Buffer.from([((data & ~LCD_ENABLE) | LCD_BACKLIGHT)]));
 }
 
 const lcdWrite = (data, mode) => {
@@ -26,6 +26,7 @@ const displayWeather = (stringOne, stringTwo) => {
     rpio.i2cBegin();
     rpio.i2cSetSlaveAddress(0x27);
     rpio.i2cSetBaudRate(10000);
+    rpio.i2cSetClockDivider(2500);
     
     for (var i = 0; i < init.length; i++)
     {
@@ -36,4 +37,12 @@ const displayWeather = (stringOne, stringTwo) => {
     rpio.i2cEnd();
 }
 
-module.exports = { displayWeather };
+const turnOff = () => {
+    rpio.i2cBegin();
+    rpio.i2cSetSlaveAddress(0x27);
+    rpio.i2cSetBaudRate(10000);
+    rpio.i2cWrite(Buffer.from([0]));
+    rpio.i2cEnd();
+};
+
+module.exports = { displayWeather, turnOff };

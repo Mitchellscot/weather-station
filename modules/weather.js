@@ -24,7 +24,7 @@ const formatResults = (data) => {
 const parseConditions = (conditions) => {
     switch(conditions) {
         case 'Clear':
-            return 'Sunny';
+            return 'Clear';
         case 'Thunderstorm':
             return 'Tstorm';
         case 'Drizzle':
@@ -63,7 +63,7 @@ const getClouds = (conditions) => {
         case 802:
             return 'PCloud';
         case 803:
-            return 'Clouds';
+            return 'Cloudy';
         case 804:
             return 'OvCast';
     }
