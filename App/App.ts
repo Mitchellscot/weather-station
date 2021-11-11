@@ -1,11 +1,11 @@
 require('dotenv').config();
 const apiKey = process.env.WEATHER_API_KEY
-const { displayWeather, turnOff } = require("./modules/lcd");
+const { /* displayWeather, */ turnOff } = require("./modules/lcd");
 const { getWeather } = require("./modules/weather");
 const { buildTopString, buildBottomString } = require("./modules/screen-formating");
 const { determineScheduledHours } = require("./modules/schedule");
 
-let top, bottom, runProgram;
+let top: string, bottom: string, runProgram: string;
 
 runProgram = determineScheduledHours();
 
