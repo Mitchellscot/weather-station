@@ -30,11 +30,11 @@ This project uses a raspbery pi zero W single core model. The pi makes a call to
 
 ##  Steps to install
 1. Purchase the hardware (above) and make sure you also have an sd card and power supply for the Pi.
-2. install raspbian, you need the vcgencmd library for the sensor to work.
+2. Install raspbian OS, you need the vcgencmd library for the sensor to work. I think you can put ubuntu on there and add vcgencmd. I think you have to add the user to the video group if you do.
 3. If you have the single core model (armv6), you have to install an older version of node. The latest supported version of node for armv6 is 10.24.1. download [here](https://nodejs.org/dist/v10.24.1/node-v10.24.1-linux-armv6l.tar.xz)
 - If you have the newer Pi Zero (armv7) than you can get away with the latest version.
-4. install this repo. I installed mine in the /srv folder but you can put yours wherever you want. If you install it in a different folder, change the cronjob below.
-5. go to open weather map and create an account. Get an api key [here](https://openweathermap.org/)
+4. Install this repo. I installed mine in the /srv folder but you can put yours wherever you want. If you install it in a different folder, change the cronjob below.
+5. Go to open weather map and create an account. Get an api key [here](https://openweathermap.org/)
 6. Go to google maps, find the location where you want to get your weather from, and get the longitude and latitude
 7. Create a file named .env in the root folder of the project and add this to it:
 ```sh
@@ -47,7 +47,8 @@ LONGITUDE=(LONGITUDE HERE)
 PATH=/usr/bin/node
 */15 6-23 * * * /usr/bin/node /srv/weather-station/dist/Program.js >> ~/weather.log 2>&1
 ```
-- this will output errors to ~/weather.log if any
+- This will output errors to ~/weather.log if any
+- I use the sudo cronjob. You need to do that to access the sensor. That's ``crontab -e``
 9. Attach the LCD screen to the pi with the given cables. Attach the temp sensor as well. Get it all packaged up in a nice case. See the image below to see what wires map to which gpio pins. Let me know if you have trouble installing the display I have some instructions but I can't link them here.
 10. Plug it in and let it run! Most of this was set up 6 months ago, I might have missed some steps. If you run into any trouble just email me.
 
