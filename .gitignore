@@ -1,3 +1,6 @@
+#ignoring compiled JS files
+/**/*.js
+
 .vs
 .env
 ClientApp/node_modules
