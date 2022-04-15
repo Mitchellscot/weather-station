@@ -63,3 +63,7 @@ PATH=/usr/bin/node
 
 ## Support
 Email with questions or whatever mitchellscott@me.com
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
