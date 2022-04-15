@@ -35,16 +35,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
-var axios_1 = require("axios");
-var WeatherData_1 = require("./WeatherData");
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var axios_1 = __importDefault(require("axios"));
+var WeatherData_1 = __importDefault(require("./WeatherData"));
 function formatResults(data) {
     var currentTemp = data.current.temp.toFixed(0);
     var feelsLike = data.current.feels_like.toFixed(0);
     var dailyHigh = data.daily[0].temp.max.toFixed(0);
     var dailyLow = data.daily[0].temp.min.toFixed(0);
     var conditions = parseConditions(data.daily[0].weather[0].main);
-    var weatherData = new WeatherData_1["default"](currentTemp, feelsLike, dailyHigh, dailyLow, conditions);
+    var weatherData = new WeatherData_1.default(currentTemp, feelsLike, dailyHigh, dailyLow, conditions);
     if (weatherData.conditions == 'Clouds') {
         weatherData.conditions = getClouds(data.daily[0].weather[0].id);
     }
@@ -100,24 +103,31 @@ function getClouds(conditions) {
             return 'WUT?';
     }
 }
-function getWeather(apiKey) {
+function GetWeather(apiKey, longitude, latitude) {
     return __awaiter(this, void 0, void 0, function () {
+        var response, weather, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     if (typeof apiKey === undefined) {
                         throw 'Unable to find the API Key';
                     }
-                    return [4 /*yield*/, axios_1["default"].get("https://api.openweathermap.org/data/2.5/onecall?lat=46.357994&lon=-94.268458&exclude=minutely,hourly&appid=" + apiKey + "&units=imperial")
-                            .then(function (response) {
-                            return formatResults(response.data);
-                        })["catch"](function (err) { return console.log("HEY MITCH - COULDN'T GET YOUR WEATHER " + err + " - here is api key " + apiKey); })];
+                    _a.label = 1;
                 case 1:
-                    _a.sent();
-                    return [2 /*return*/];
+                    _a.trys.push([1, 3, , 4]);
+                    return [4, axios_1.default.get("https://api.openweathermap.org/data/2.5/onecall?lat=".concat(latitude, "&lon=").concat(longitude, "&exclude=minutely,hourly&appid=").concat(apiKey, "&units=imperial"))];
+                case 2:
+                    response = _a.sent();
+                    weather = formatResults(response.data);
+                    return [2, weather];
+                case 3:
+                    error_1 = _a.sent();
+                    console.log("HEY MITCH - COULDN'T GET YOUR WEATHER ".concat(error_1, " - here is api key ").concat(apiKey));
+                    return [3, 4];
+                case 4: return [2];
             }
         });
     });
 }
-exports["default"] = getWeather;
+exports.default = GetWeather;
 ;

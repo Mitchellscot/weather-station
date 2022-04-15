@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-var WeatherData = /** @class */ (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var WeatherData = (function () {
     function WeatherData(current, feels, high, low, conditions) {
         this.current = current;
         this.feels = feels;
@@ -10,4 +10,4 @@ var WeatherData = /** @class */ (function () {
     }
     return WeatherData;
 }());
-exports["default"] = WeatherData;
+exports.default = WeatherData;

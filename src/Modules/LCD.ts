@@ -1,28 +1,28 @@
 var rpio = require('rpio');
 
-var init = Buffer.from([0x03, 0x03, 0x03, 0x02, 0x28, 0x0c, 0x01, 0x06]);
+var init: Buffer = Buffer.from([0x03, 0x03, 0x03, 0x02, 0x28, 0x0c, 0x01, 0x06]);
 var LCD_LINE1 = 0x80, LCD_LINE2 = 0xc0;
 var LCD_ENABLE = 0x04, LCD_BACKLIGHT = 0x08;
 
-const lcdWriteBits = (data) =>{
-        rpio.i2cWrite(Buffer.from([(data | LCD_BACKLIGHT)]));
-        rpio.i2cWrite(Buffer.from([(data | LCD_ENABLE | LCD_BACKLIGHT)]));
-        rpio.i2cWrite(Buffer.from([((data & ~LCD_ENABLE) | LCD_BACKLIGHT)]));
+function lcdWriteBits(data: any): void{
+    rpio.i2cWrite(Buffer.from([(data | LCD_BACKLIGHT)]));
+    rpio.i2cWrite(Buffer.from([(data | LCD_ENABLE | LCD_BACKLIGHT)]));
+    rpio.i2cWrite(Buffer.from([((data & ~LCD_ENABLE) | LCD_BACKLIGHT)]));
 }
 
-const lcdWrite = (data, mode) => {
+function lcdWrite(data: number, mode: number): void{
     lcdWriteBits(mode | (data & 0xF0));
     lcdWriteBits(mode | ((data << 4) & 0xF0));
 }
 
-const lineOut = (str, addr) =>{
+function lineOut(str: string, addr: number): void{
     lcdWrite(addr, 0);
-        str.split('').forEach((c) => {
+        str.split('').forEach((c: string) => {
             lcdWrite(c.charCodeAt(0), 1);
         });
 }
     
-const displayWeather = (stringOne, stringTwo) => {
+export function DisplayWeather(stringOne: string, stringTwo: string): void {
     rpio.i2cBegin();
     rpio.i2cSetSlaveAddress(0x27);
     rpio.i2cSetBaudRate(10000);
@@ -37,12 +37,10 @@ const displayWeather = (stringOne, stringTwo) => {
     rpio.i2cEnd();
 }
 
-const turnOff = () => {
+export function TurnOff(): void{
     rpio.i2cBegin();
     rpio.i2cSetSlaveAddress(0x27);
     rpio.i2cSetBaudRate(10000);
     rpio.i2cWrite(Buffer.from([0]));
     rpio.i2cEnd();
 };
-
-module.exports = { displayWeather, turnOff };

@@ -1,5 +1,6 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TurnOff = exports.DisplayWeather = void 0;
 var rpio = require('rpio');
 var init = Buffer.from([0x03, 0x03, 0x03, 0x02, 0x28, 0x0c, 0x01, 0x06]);
 var LCD_LINE1 = 0x80, LCD_LINE2 = 0xc0;
@@ -19,7 +20,7 @@ function lineOut(str, addr) {
         lcdWrite(c.charCodeAt(0), 1);
     });
 }
-function displayWeather(stringOne, stringTwo) {
+function DisplayWeather(stringOne, stringTwo) {
     rpio.i2cBegin();
     rpio.i2cSetSlaveAddress(0x27);
     rpio.i2cSetBaudRate(10000);
@@ -31,13 +32,13 @@ function displayWeather(stringOne, stringTwo) {
     }
     rpio.i2cEnd();
 }
-exports.displayWeather = displayWeather;
-function turnOff() {
+exports.DisplayWeather = DisplayWeather;
+function TurnOff() {
     rpio.i2cBegin();
     rpio.i2cSetSlaveAddress(0x27);
     rpio.i2cSetBaudRate(10000);
     rpio.i2cWrite(Buffer.from([0]));
     rpio.i2cEnd();
 }
-exports.turnOff = turnOff;
+exports.TurnOff = TurnOff;
 ;
