@@ -2,9 +2,9 @@
   "name": "weather-station",
   "version": "1.0.0",
   "description": "program to show the temp outside and temp inside",
-  "main": "index.js",
+  "main": "./dist/Program.js",
   "scripts": {
-    "start": "tsc && node ./app/Program.js"
+    "start": "tsc && node ./dist/Program.js"
   },
   "repository": {
     "type": "git",

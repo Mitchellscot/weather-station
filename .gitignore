@@ -1,6 +1,6 @@
 #ignoring compiled JS files
 /**/*.js
-
+.dist
 .vs
 .env
 ClientApp/node_modules
