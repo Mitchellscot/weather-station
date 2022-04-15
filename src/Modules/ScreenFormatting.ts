@@ -1,17 +1,14 @@
 import WeatherData from "./WeatherData";
-
-//const sensor = require("node-dht-sensor").promises;
-//when you are back on a linux comp npm install node-dht-sensor
-//throws an error on windows
+const sensor = require("node-dht-sensor").promises;
 
 export function BuildBottomString(data: WeatherData){
     return `H${formatTemp(data.high.toString())} L${formatTemp(data.low.toString())} ${data.conditions}`;
 };
 
-export function BuildTopString(data: WeatherData): string{
+export async function BuildTopString(data: WeatherData): Promise<string>{
     let topString: string;
     try {
-        const readTemp = { temperature: 25 }; //await sensor.read(22, 4);
+        const readTemp = await sensor.read(22, 4);
         let convertedToFahrenheit = convertToFahrenheit(readTemp.temperature);
         topString =  ` C${formatTemp(data.current.toString())} F${formatTemp(data.feels.toString())} I ${convertedToFahrenheit.toFixed(0)}`;
     } catch (error) {
