@@ -6,7 +6,7 @@ const buildBottomString = (response) => {
 
 const buildTopString = async (response) => {
     try {
-        const readTemp = await sensor.read(22, 4);
+        const readTemp = {temperature: 25 }; //await sensor.read(22, 4);
         let convertedToFahrenheit = convertToFahrenheit(readTemp.temperature.toFixed(0));
         return ` C${formatTemp(response.current)} F${formatTemp(response.feels)} I ${convertedToFahrenheit.toFixed(0)}`;
     } catch (error) {
