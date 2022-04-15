@@ -68,7 +68,7 @@ function getClouds(conditions: number): string{
     }
 }
 
-export default async function GetWeather(apiKey: string, longitude: string, latitude: string): Promise<WeatherData>{
+export default async function GetWeather(apiKey: string, latitude: string, longitude: string): Promise<WeatherData>{
     if(typeof apiKey === undefined){
         throw 'Unable to find the API Key';
     }

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({path: '../.env' });
 import RunProgram from './Modules/RunProgram';
 import DetermineScheduledHours from "./Modules/Schedule";
 import { TurnOff } from "./Modules/LCD";
