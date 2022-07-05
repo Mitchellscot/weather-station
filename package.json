@@ -4,6 +4,7 @@
   "description": "program to show the temp outside and temp inside",
   "main": "./dist/Program.js",
   "scripts": {
+    "dev": "tsc && node ./dist/Program.js --sourcemap",
     "start": "tsc && node ./dist/Program.js"
   },
   "repository": {

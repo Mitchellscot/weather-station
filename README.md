@@ -3,7 +3,7 @@
 
 [![Pi](/images/operational.JPG "It works!")
 
-- C stands for Current (not Celcius - all temps are in Fahrenheit)
+- C stands for Current (not Celsius - all temps are in Fahrenheit)
 - F stands for 'Feels Like'
 - I stands for Indoor Temperature
 - H stands for High

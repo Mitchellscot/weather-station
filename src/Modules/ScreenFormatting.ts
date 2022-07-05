@@ -8,17 +8,24 @@ export function BuildBottomString(data: WeatherData){
 export async function BuildTopString(data: WeatherData): Promise<string>{
     let topString: string;
     try {
+        let temp: string;
         const readTemp = await sensor.read(22, 4);
-        let convertedToFahrenheit = convertToFahrenheit(readTemp.temperature);
-        topString =  ` C${formatTemp(data.current.toString())} F${formatTemp(data.feels.toString())} I ${convertedToFahrenheit.toFixed(0)}`;
-    } catch (error) {
-        console.log(`HEY MITCH - COULDNT READ TEMPERATURE ${error}`);        
+        if(readTemp === undefined){
+            temp = "??";
+        }
+        else{
+            temp = convertToFahrenheit(readTemp.temperature);
+        }
+        topString =  ` C${formatTemp(data.current.toString())} F${formatTemp(data.feels.toString())} I ${temp}`;
+    } catch (error: unknown) {
+        console.log(`HEY MITCH - PROBLEM READING TEMP ${error}`);
+        process.exit(1);        
     }
     return topString;
 }
 
-function convertToFahrenheit(temp: number): number{
-    return Number((temp * 9/5 + 32).toFixed(0));
+function convertToFahrenheit(temp: number): string {
+    return Number((temp * 9/5 + 32).toFixed(0)).toFixed(0);
 }
 
 function formatTemp(temperature: string): string{

@@ -69,14 +69,28 @@ function getClouds(conditions: number): string{
 }
 
 export default async function GetWeather(apiKey: string, latitude: string, longitude: string): Promise<WeatherData>{
-    if(typeof apiKey === undefined){
-        throw 'Unable to find the API Key';
-    }
+
     try {
-        const response: AxiosResponse = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${apiKey}&units=imperial`);
+        if(apiKey === undefined){
+            throw new Error("Unable to find the API Key.");
+        }
+        const response: AxiosResponse = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${apiKey}&units=imperial`).catch(error => {
+            let gmtTime: Date = new Date(error.response.headers.date);
+            const time = gmtTime.toLocaleString('en-us', { timeZone: 'CST', timeZoneName: 'short' });
+            throw new Error(`An error occured while sending a request to open weather map.\n Status Code: ${error.response.status}\n Message: ${error.response.data.message}\n Time: ${time}\n`);
+        });
         const weather = formatResults(response.data);
         return weather;
-    } catch (error: unknown) {
-        console.log(`HEY MITCH - COULDN'T GET YOUR WEATHER ${error} - here is api key ${apiKey}`);
+    }
+    catch (error: unknown) {
+        let message: string = "";
+        if(error instanceof Error) {
+            message = error.message;
+        }
+        else {
+            message = String(error);
+        }
+        console.error(`HEY MITCH - ${message}`);
+        process.exit(1);
     }
 };
