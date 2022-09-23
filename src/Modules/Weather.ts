@@ -75,9 +75,9 @@ export default async function GetWeather(apiKey: string, latitude: string, longi
             throw new Error("Unable to find the API Key.");
         }
         const response: AxiosResponse = await axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${apiKey}&units=imperial`).catch(error => {
-            let gmtTime: Date = new Date(error.response.headers.date);
+            let gmtTime: Date = new Date(error?.response?.headers?.date);
             const time = gmtTime.toLocaleString('en-us', { timeZone: 'CST', timeZoneName: 'short' });
-            throw new Error(`An error occured while sending a request to open weather map.\n Status Code: ${error.response.status}\n Message: ${error.response.data.message}\n Time: ${time}\n`);
+            throw new Error(`An error occured while sending a request to open weather map.\n Status Code: ${error?.response?.status === undefined ? '??' : error.response.status}\n Message: ${error?.response?.data?.message === undefined ? "??" : error?.response?.data?.message}\n Time: ${time === undefined ? "?": time}\n`);
         });
         const weather = formatResults(response.data);
         return weather;

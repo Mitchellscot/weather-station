@@ -25,8 +25,8 @@ function lineOut(str: string, addr: number): void{
 export function DisplayWeather(stringOne: string, stringTwo: string): void {
     rpio.i2cBegin();
     rpio.i2cSetSlaveAddress(0x27);
-    rpio.i2cSetBaudRate(10000);
-    rpio.i2cSetClockDivider(2500);
+    rpio.i2cSetBaudRate(100000);
+   // rpio.i2cSetClockDivider(2500);
     
     for (var i = 0; i < init.length; i++)
     {

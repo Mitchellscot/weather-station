@@ -8,8 +8,10 @@ export default async function RunProgram(apiKey: string, latitude: string, longi
         const data: WeatherData = await GetWeather(apiKey, latitude, longitude);
         const topString = await BuildTopString(data);
         const bottomString = BuildBottomString(data);
-        console.log(topString);
-        console.log(bottomString);
+	let d = new Date();
+	console.log(d.toLocaleString('en-US'));
+	console.log(topString);
+	console.log(bottomString);
         DisplayWeather(topString, bottomString);
     }catch(error: unknown){
         console.error(`MESSAGE FOR YOU MITCHELL ${error}`);
