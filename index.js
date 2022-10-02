@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({path: `${__dirname}/.env` });
 const apiKey = process.env.WEATHER_API_KEY
 let { displayWeather, turnOff } = require("./modules/lcd");
 let { getWeather } = require("./modules/weather");
