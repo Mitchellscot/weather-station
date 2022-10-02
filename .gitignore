@@ -1,6 +1,3 @@
-#ignoring compiled JS files
-/**/*.js
-/**/*.js.map
 .dist
 .vs
 .env
